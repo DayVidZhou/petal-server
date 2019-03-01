@@ -1,0 +1,41 @@
+from app import app
+from flask import request, jsonify, redirect, url_for
+
+@app.route('/', methods = ["GET","POST"])
+def measurement():
+	if request:
+		print(request.data)
+		return request.data
+	# if request.get_json():
+	# 	json = request.get_json()
+	# 	formattedTime = dt.datetime.utcfromtimestamp(json['time']).strftime("%Y-%m-%d %H:%M:%S.%f")
+	# 	measurement = Measurement(time=formattedTime, current=json['current']\
+	# 		, voltage=json['voltage'], realp=json['realp'])
+	# 	db.session.add(measurement)
+	# 	db.session.commit()
+	# 	return jsonify(json)
+	else:
+		return "OH YOU JUST TRYNA READDDD!!!!"
+
+
+@app.route('/testing', methods = ["GET","POST"])
+def test():
+	if request.get_json():
+		json = request.get_json()
+		test = Test(tests=json['tests'], testf=json['testf'])
+		db.session.add(test)
+		db.session.commit()
+		return jsonify(json)
+	else:
+		return "OH YOU wanna read TESTSTSS!!!!"
+
+@app.route('/measurements', methods = ["GET"])
+def getMeasurements():
+	measurements = Measurements.query.all()
+	measure_list = {}
+	i = 1
+	for x in measurements:
+		measure_list[i] = x.realp
+		i += 1
+		print(measure_list)
+	return jsonify(measure_list)
