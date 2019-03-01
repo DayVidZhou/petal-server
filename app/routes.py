@@ -2,6 +2,7 @@ from app import app
 from flask import request, jsonify, redirect, url_for
 
 @app.route('/', methods = ["GET","POST"])
+@app.route('/index', methods = ["GET","POST"])
 def measurement():
 	try:
 		if request.method == "POST":
