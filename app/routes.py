@@ -3,19 +3,23 @@ from flask import request, jsonify, redirect, url_for
 
 @app.route('/', methods = ["GET","POST"])
 def measurement():
-	if request:
-		print(request.data)
-		return request.data
-	# if request.get_json():
-	# 	json = request.get_json()
-	# 	formattedTime = dt.datetime.utcfromtimestamp(json['time']).strftime("%Y-%m-%d %H:%M:%S.%f")
-	# 	measurement = Measurement(time=formattedTime, current=json['current']\
-	# 		, voltage=json['voltage'], realp=json['realp'])
-	# 	db.session.add(measurement)
-	# 	db.session.commit()
-	# 	return jsonify(json)
-	else:
-		return "OH YOU JUST TRYNA READDDD!!!!"
+	try:
+		if request.method == "POST":
+
+			print(request.data)
+			return request.data
+			if request.is_json:
+				json = request.get_json()
+				formattedTime = dt.datetime.utcfromtimestamp(json['time']).strftime("%Y-%m-%d %H:%M:%S.%f")
+				measurement = Measurement(time=formattedTime, current=json['current']\
+					, voltage=json['voltage'], realp=json['realp'])
+				db.session.add(measurement)
+				db.session.commit()
+				return jsonify(json)
+		if request.method == "GET":
+			return "OH YOU JUST TRYNA READDDD!!!!"
+	except:
+		return "SOMETHING WENT WRONG"
 
 
 @app.route('/testing', methods = ["GET","POST"])
