@@ -1,4 +1,5 @@
 import os
+import datetime as dt
 from flask import Flask, request, jsonify, redirect, url_for
 from models import Base, Measurement
 from flask_sqlalchemy import SQLAlchemy
@@ -14,7 +15,8 @@ db = SQLAlchemy(app)
 def measurement():
 	if request.get_json():
 		json = request.get_json()
-		measurement = Measurement(time=json['time'], current=json['current']\
+		formattedTime = dt.datetime.utcfromtimestamp(json['time']).strftime("%Y-%m-%d %H:%M:%S.%f")
+		measurement = Measurement(time=formattedTime, current=json['current']\
 			, voltage=json['voltage'], realp=json['realp'])
 		db.session.add(measurement)
 		db.session.commit()
