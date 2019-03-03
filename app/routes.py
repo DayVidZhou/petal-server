@@ -17,7 +17,7 @@ def measurement():
 			# 		, voltage=json['voltage'], realp=json['realp'])
 			db.session.add(measurement)
 			db.session.commit()
-        	return 'thanks for measurments'
+			return 'thanks for measurments'
 		if request.method == "GET":
 			return "OH YOU JUST TRYNA READDDD!!!!"
 	except:
