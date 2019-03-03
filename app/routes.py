@@ -45,11 +45,32 @@ def test():
 
 @app.route('/measurements', methods = ["GET"])
 def getMeasurements():
-	measurements = Measurement.query.all()
-	measure_list = {}
-	i = 1
-	for x in measurements:
-		measure_list[i] = x.time
-		i += 1
-		print(measure_list)
-	return jsonify(measure_list)
+	try:
+		measure_list = []
+		if request.args:
+			measurelist = []
+			json = request.get_json()
+			start = dt.strptime(json['start'],'%d-%m-%Y')
+			end = dt.strptime(json['end'],'%d-%m-%Y')
+			measurements = Measurement.query.filter(Measurement.time <= end).filter(Measurement.time >= start)
+			for x in measurements:
+				temp = {}
+				temp[x.time] = x.realP1 + x.realP2
+				measurelist.append(temp)
+			print(jsonify(measurelist))
+		if len(request.args) == 0:
+			measurements = Measurement.query.all()
+			for x in measurements:
+				temp = {}
+				time = x.time
+				print("the time is ", time)
+				temp['time'] = str(x.time)
+				temp['voltage'] = x.voltage
+				temp['current1'] = x.current1
+				temp['current2'] = x.current2
+				measure_list.append(temp)
+			print(measure_list)
+		return (jsonify(measure_list))
+	except Exception as e:
+		print(str(e))
+		return str(e), 400
