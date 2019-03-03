@@ -1,5 +1,6 @@
 from app import app
 from flask import request, jsonify, redirect, url_for
+from app.models import Measurement, Test
 
 @app.route('/', methods = ["GET","POST"])
 @app.route('/index', methods = ["GET","POST"])
