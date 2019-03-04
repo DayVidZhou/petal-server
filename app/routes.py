@@ -48,13 +48,13 @@ def getMeasurements():
 	try:
 		measurelist = []
 		if request.args:
-			start = dt.datetime.strptime(request.args['start'],'%m-%d-%Y')
-			end = dt.datetime.strptime(request.args['end'],'%m-%d-%Y')
+			start = dt.datetime.strptime(request.args['start'],'%m-%d-%Y-%H')
+			end = dt.datetime.strptime(request.args['end'],'%m-%d-%Y-%H')
 			print("Start time is ", start, " the end time is ", end)
 			measurements = Measurement.query.filter(Measurement.time <= end).filter(Measurement.time >= start)
 			for x in measurements:
 				temp = {}
-				temp['time'] = x.time.strftime("%m-%d-%Y")
+				temp['time'] = x.time.strftime("%m-%d-%Y-%H")
 				temp['power'] = x.realP1 + x.realP2
 				measurelist.append(temp)
 			print("THE LIST IS ", jsonify(measurelist))
