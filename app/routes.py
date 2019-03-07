@@ -9,8 +9,8 @@ def measurement():
 	try:
 		if request.method == "POST":
 			print(request.form)
-			formattedTime = dt.datetime.utcfromtimestamp(float(request.form.get('time'))).strftime("%Y-%m-%d %H:%M:%S.%f")
-			measurement = Measurement(time = formattedTime, current1 = float(request.form.get('current1')), \
+			formattedTime = dt.datetime.utcfromtimestamp(float(request.form.get('time')))
+			measurement = Measurement(time = formattedTime, user = int(request.form.get('user')), current1 = float(request.form.get('current1')), \
 				voltage = float(request.form.get('voltage')), current2 = float(request.form.get('current2')), \
 				realP1 = float(request.form.get('realP1')), realP2 = float(request.form.get('realP2')))
 			# if request.is_json:
@@ -20,7 +20,7 @@ def measurement():
 			# 		, voltage=json['voltage'], realp=json['realp'])
 			db.session.add(measurement)
 			db.session.commit()
-			return 'thanks for measurments'
+			return 'thanks for measurments at ' + formattedTime.strftime("%Y-%m-%d %H:%M:%S.%f")
 		if request.method == "GET":
 			return "OH YOU JUST TRYNA READDDD!!!!"
 	except Exception as e:
@@ -69,6 +69,16 @@ def getMeasurements():
 				temp['current2'] = x.current2
 				measurelist.append(temp)
 		return (jsonify(measurelist))
+	except Exception as e:
+		print(str(e))
+		return str(e), 400
+
+@app.route('/delete_all_measurements', methods = ["GET"])
+def deletingMeasurements():
+	try:
+		deleted = db.session.query(Measurement).delete()
+		db.session.commit()
+		return "Deleted " + str(deleted) + " rows"
 	except Exception as e:
 		print(str(e))
 		return str(e), 400

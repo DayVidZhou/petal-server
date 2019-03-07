@@ -4,6 +4,7 @@ class Measurement(db.Model):
 	__tablename__ = 'measurements'
 
 	time = db.Column(db.DateTime, primary_key=True, unique=True, nullable=False)
+	user = db.Column(db.Integer, default=0)
 	current1 = db.Column(db.Float, nullable=False)
 	current2 = db.Column(db.Float, nullable=False)
 	voltage = db.Column(db.Float, nullable=False)
