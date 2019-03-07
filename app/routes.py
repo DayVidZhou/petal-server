@@ -45,6 +45,7 @@ def test():
 
 @app.route('/measurements', methods = ["GET"])
 def getMeasurements():
+	print("GETTING MEASUREMENTS")
 	try:
 		measurelist = []
 		if request.args:
