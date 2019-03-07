@@ -59,6 +59,7 @@ def getMeasurements():
 				measurelist.append(temp)
 			print("THE LIST IS ", jsonify(measurelist))
 		if len(request.args) == 0:
+			print("Getting all measurements")
 			measurements = Measurement.query.all()
 			for x in measurements:
 				temp = {}
