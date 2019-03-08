@@ -62,6 +62,7 @@ def getMeasurements():
 				temp['voltage'] = x.voltage
 				temp['current1'] = x.current1
 				temp['current2'] = x.current2
+				temp['power'] = x.realP1 + x.realP2
 				measurelist.append(temp)
 		return (jsonify(measurelist))
 	except Exception as e:
@@ -73,6 +74,7 @@ def getLastMeasurements():
 	try:
 		lastRow = db.session.query(Measurement).order_by(Measurement.time.desc()).first()
 		ans = {}
+		ans['time'] = lastRow.time.strftime("%m-%d-%Y-%H")
 		ans['power'] = lastRow.realP1 + lastRow.realP2
 		return jsonify(ans)
 	except Exception as e:
