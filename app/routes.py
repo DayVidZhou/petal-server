@@ -8,16 +8,10 @@ import datetime as dt
 def measurement():
 	try:
 		if request.method == "POST":
-			print(request.form)
 			formattedTime = dt.datetime.utcfromtimestamp(float(request.form.get('time')))
 			measurement = Measurement(time = formattedTime, user = int(request.form.get('user')), current1 = float(request.form.get('current1')), \
 				voltage = float(request.form.get('voltage')), current2 = float(request.form.get('current2')), \
 				realP1 = float(request.form.get('realP1')), realP2 = float(request.form.get('realP2')))
-			# if request.is_json:
-			# 	json = request.get_json()
-			# 	formattedTime = dt.datetime.utcfromtimestamp(json['time']).strftime("%Y-%m-%d %H:%M:%S.%f")
-			# 	measurement = Measurement(time=formattedTime, current=json['current']\
-			# 		, voltage=json['voltage'], realp=json['realp'])
 			db.session.add(measurement)
 			db.session.commit()
 			return 'thanks for measurments at ' + formattedTime.strftime("%Y-%m-%d %H:%M:%S.%f")
@@ -45,7 +39,6 @@ def test():
 
 @app.route('/measurements', methods = ["GET"])
 def getMeasurements():
-	print("GETTING MEASUREMENTS")
 	try:
 		measurelist = []
 		if request.args:
@@ -71,6 +64,17 @@ def getMeasurements():
 				temp['current2'] = x.current2
 				measurelist.append(temp)
 		return (jsonify(measurelist))
+	except Exception as e:
+		print(str(e))
+		return str(e), 400
+
+@app.route('/lastmeasurement', methods = ["GET"])
+def getLastMeasurements():
+	try:
+		lastRow = db.session.query(Measurement).order_by(Measurement.time.desc()).first()
+		ans = {}
+		ans['power'] = lastRow.realP1 + lastRow.realP2
+		return jsonify(ans)
 	except Exception as e:
 		print(str(e))
 		return str(e), 400
