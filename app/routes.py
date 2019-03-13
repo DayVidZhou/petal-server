@@ -161,6 +161,16 @@ def processApplianceData():
 		print(str(e))
 		return str(e), 400
 
+@app.route('/delete_all_appliances', methods = ["GET"])
+def deletingAppliances():
+	try:
+		deleted = db.session.query(Appliance).delete()
+		db.session.commit()
+		return "Deleted " + str(deleted) + " rows for appliances"
+	except Exception as e:
+		print(str(e))
+		return str(e), 400
+
 @app.route('/lastmeasurement', methods = ["GET"])
 def getLastMeasurements():
 	try:
