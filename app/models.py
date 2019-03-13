@@ -22,3 +22,13 @@ class Test(db.Model):
 
 	def __repr__(self):
 		return "<test string: {}>".format(self.tests)
+
+class Appliance(db.Model):
+	__tablename__ = 'appliances'
+
+	name = db.Column(db.String(120), primary_key=True, unique=True)
+	duration = db.Column(db.Integer, default=0)
+	power = db.Column(db.Float, default=0.0)
+
+	def __repr__(self):
+		return "<Device is : {}>".format(self.name)
