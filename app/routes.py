@@ -102,7 +102,7 @@ def processApplianceData():
 				counter = 0
 				power = 0
 				for i in toasterlist:
-					if i > 5:
+					if i > 10:
 						counter += 1
 						power += i
 				toasterquery.duration = toasterquery.duration + counter
@@ -112,7 +112,7 @@ def processApplianceData():
 				counter = 0
 				power = 0
 				for j in dryerlist:
-					if j > 5:
+					if j > 10:
 						counter += 1
 						power += j
 				dryerquery.duration = dryerquery.duration + counter
@@ -122,7 +122,7 @@ def processApplianceData():
 				counter = 0
 				power = 0
 				for k in ironlist:
-					if k > 5:
+					if k > 10:
 						counter += 1
 						power += k
 				ironquery.duration = ironquery.duration + counter
