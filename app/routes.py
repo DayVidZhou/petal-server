@@ -75,6 +75,7 @@ def processApplianceData():
 		if request.method == "POST":
 			if request.is_json:
 				json = request.get_json()
+				print(json)
 				if Appliance.query.filter_by(name = 'toaster').first() == None:
 					print("no toaster")
 					toaster = Appliance(name = "toaster", duration = 0, power = 0.0)
@@ -101,9 +102,9 @@ def processApplianceData():
 				counter = 0
 				power = 0
 				for i in toasterlist:
-					if i != 0:
+					if i > 5:
 						counter += 1
-					power += i
+						power += i
 				toasterquery.duration = toasterquery.duration + counter
 				toasterquery.power = toasterquery.power + float(power)
 				db.session.commit()
@@ -111,9 +112,9 @@ def processApplianceData():
 				counter = 0
 				power = 0
 				for j in dryerlist:
-					if j != 0:
+					if j > 5:
 						counter += 1
-					power += i
+						power += j
 				dryerquery.duration = dryerquery.duration + counter
 				dryerquery.power = dryerquery.power + float(power)
 				db.session.commit()
@@ -121,9 +122,9 @@ def processApplianceData():
 				counter = 0
 				power = 0
 				for k in ironlist:
-					if k != 0:
+					if k > 5:
 						counter += 1
-					power += i
+						power += k
 				ironquery.duration = ironquery.duration + counter
 				ironquery.power = ironquery.power + float(power)
 				db.session.commit()
